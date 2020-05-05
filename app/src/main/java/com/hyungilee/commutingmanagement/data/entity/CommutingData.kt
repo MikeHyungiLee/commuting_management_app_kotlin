@@ -9,13 +9,18 @@ data class CommutingData(
     @PrimaryKey(autoGenerate = true)
     var user_id: Long?,
     @ColumnInfo(name = "username")
-    var username: String,
+    var user_name: String,
     @ColumnInfo(name = "date")
     var date: String,
     @ColumnInfo(name = "category")
     var category: String,
     @ColumnInfo(name = "startTime")
-    var startTime: String,
+    var start_time: String,
     @ColumnInfo(name = "endTime")
-    var endTime: String
-)
+    var end_time: String
+){
+    override fun toString(): String {
+        return "user_id: $user_id, user_name: $user_name, date: $date, category: $category," +
+                "start_time: $start_time, end_time: $end_time"
+    }
+}
