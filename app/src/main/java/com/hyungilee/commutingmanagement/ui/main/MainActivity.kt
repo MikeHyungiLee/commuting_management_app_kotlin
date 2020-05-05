@@ -5,32 +5,23 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.ui.setupWithNavController
 import com.hyungilee.commutingmanagement.R
 import com.hyungilee.commutingmanagement.data.entity.CommutingData
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mainViewModel: MainViewModel
-    private var cntNum: Int = 0
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        mainViewModel.getAllCommutingData().observe(this, Observer {
-            if(cntNum == 0) {
-                result_txt.text = "データアップデート準備"
-                cntNum++
-            }else{
-                result_txt.text = "完了"
-            }
-        })
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        bottom_nav.setupWithNavController(navController)
 
-        data_add_btn.setOnClickListener {
-            val commutingData = CommutingData(0L, "Mike", "5/5", "出勤", "07:00", "08:00")
-            mainViewModel.saveCommutingData(commutingData)
-        }
     }
 }
