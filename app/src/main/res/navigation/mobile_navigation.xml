@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/commutingTimeRegistrationFragment">
+
+    <fragment
+        android:id="@+id/commutingTimeRegistrationFragment"
+        android:name="com.hyungilee.commutingmanagement.ui.commutingtimeregistration.CommutingTimeRegistrationFragment"
+        android:label="commuting_time_registration_fragment"
+        tools:layout="@layout/commuting_time_registration_fragment" />
+    <fragment
+        android:id="@+id/commutingTimeHistoryFragment"
+        android:name="com.hyungilee.commutingmanagement.ui.commutingtimehistory.CommutingTimeHistoryFragment"
+        android:label="commuting_time_history_fragment"
+        tools:layout="@layout/commuting_time_history_fragment" />
+</navigation>
