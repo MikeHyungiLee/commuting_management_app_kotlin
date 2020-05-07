@@ -10,13 +10,11 @@ import kotlinx.coroutines.DisposableHandle
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class CommutingDatabaseRepository(application: Application) {
-    private var commutingDatabaseDao: CommutingManagementDao
+class CommutingDatabaseRepository(private val db: CommutingManagementDatabase) {
+    private var commutingDatabaseDao: CommutingManagementDao = db.commutingManagementDao()
     private var allCommutingData: LiveData<List<CommutingData>>
 
     init {
-       val database = CommutingManagementDatabase.getInstance(application.applicationContext)
-        commutingDatabaseDao = database!!.commutingManagementDao()
         allCommutingData = commutingDatabaseDao.getAllCommutingData()
     }
 
