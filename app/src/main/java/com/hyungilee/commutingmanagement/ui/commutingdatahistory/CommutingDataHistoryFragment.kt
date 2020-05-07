@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.hyungilee.commutingmanagement.R
+import com.hyungilee.commutingmanagement.data.db.CommutingManagementDatabase
+import com.hyungilee.commutingmanagement.data.repository.CommutingDatabaseRepository
 import com.hyungilee.commutingmanagement.ui.commutingdatahistory.adapter.CommutingDataHistoryAdapter
 import kotlinx.android.synthetic.main.commuting_time_history_fragment.*
 
@@ -32,7 +34,9 @@ class CommutingDataHistoryFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val viewModelFactory = CommutingDataHistoryViewModelFactory(activity?.application!!)
+        val database = CommutingManagementDatabase.invoke(requireContext())
+        val repository = CommutingDatabaseRepository(database)
+        val viewModelFactory = CommutingDataHistoryViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(CommutingDataHistoryViewModel::class.java)
 
         viewModel.getAllCommutingData().observe(viewLifecycleOwner, Observer { list ->

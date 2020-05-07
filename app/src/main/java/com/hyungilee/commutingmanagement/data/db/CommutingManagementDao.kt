@@ -19,6 +19,6 @@ interface CommutingManagementDao {
     fun updateLeaveTime(end_time: String, currentDate: String)
 
     @Query("SELECT startTime FROM commuting_data_tbl WHERE date =:currentDate")
-    fun searchStartTime(currentDate: String)
+    fun searchStartTime(currentDate: String): String
 
 }
