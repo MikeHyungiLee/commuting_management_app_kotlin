@@ -16,11 +16,11 @@ data class CommutingData(
     var category: String,
     @ColumnInfo(name = "startTime")
     var start_time: String,
-    @ColumnInfo(name = "endTime")
-    var end_time: String
+    @ColumnInfo(name = "leaveTime")
+    var leave_time: String
 ){
     override fun toString(): String {
         return "user_id: $user_id, user_name: $user_name, date: $date, category: $category," +
-                "start_time: $start_time, end_time: $end_time"
+                "start_time: $start_time, leave_time: $leave_time"
     }
 }

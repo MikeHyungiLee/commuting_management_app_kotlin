@@ -29,4 +29,5 @@ class CommutingDatabaseRepository(application: Application) {
     fun getAllCommutingData(): LiveData<List<CommutingData>> {
         return allCommutingData
     }
+
 }
