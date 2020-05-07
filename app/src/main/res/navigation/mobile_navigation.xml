@@ -12,7 +12,7 @@
         tools:layout="@layout/commuting_time_registration_fragment" />
     <fragment
         android:id="@+id/commutingTimeHistoryFragment"
-        android:name="com.hyungilee.commutingmanagement.ui.commutingtimehistory.CommutingTimeHistoryFragment"
+        android:name="com.hyungilee.commutingmanagement.ui.commutingdatahistory.CommutingDataHistoryFragment"
         android:label="commuting_time_history_fragment"
         tools:layout="@layout/commuting_time_history_fragment" />
 </navigation>
