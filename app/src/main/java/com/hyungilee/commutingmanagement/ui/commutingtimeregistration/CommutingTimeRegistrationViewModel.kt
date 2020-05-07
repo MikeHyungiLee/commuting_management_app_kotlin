@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.hyungilee.commutingmanagement.data.entity.CommutingData
 import com.hyungilee.commutingmanagement.data.repository.CommutingDatabaseRepository
 
-class CommutingTimeRegistrationViewModel(application: Application) : ViewModel() {
-    private val commutingDatabaseRepository = CommutingDatabaseRepository(application)
+class CommutingTimeRegistrationViewModel(private val repository: CommutingDatabaseRepository) : ViewModel() {
+
     private val allCommutingData: LiveData<List<CommutingData>> =
-        commutingDatabaseRepository.getAllCommutingData()
+        repository.getAllCommutingData()
 
     fun saveCommutingData(commutingData: CommutingData){
-        commutingDatabaseRepository.saveCommutingData(commutingData)
+        repository.saveCommutingData(commutingData)
     }
 
     fun getAllCommutingData(): LiveData<List<CommutingData>> {
