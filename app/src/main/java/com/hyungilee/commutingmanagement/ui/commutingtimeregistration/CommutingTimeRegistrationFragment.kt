@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.database.FirebaseDatabase
 
 import com.hyungilee.commutingmanagement.R
 import com.hyungilee.commutingmanagement.data.db.CommutingManagementDatabase
@@ -35,10 +37,15 @@ class CommutingTimeRegistrationFragment : Fragment() {
         val viewModelFactory = CommutingTimeRegistrationViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(CommutingTimeRegistrationViewModel::class.java)
 
-//        start_btn.setOnClickListener {
-//              val commutingData = CommutingData(null, "S", "5/5", "出勤", "07:00", "00:00")
-//              viewModel.saveCommutingData(commutingData)
-//        }
+        val ref = FirebaseDatabase.getInstance().getReference("commuting_database")
+        // unique id
+        val userId = ref.push().key
+        // new commuting data
+        val commutingData = CommutingData(userId!!, "S", "5/5", "出勤", "07:00", "00:00")
+
+        ref.child(userId).setValue(commutingData).addOnCompleteListener {
+            Toast.makeText(context, "Commuting data saved successfully", Toast.LENGTH_LONG).show()
+        }
     }
 
 }
