@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "commuting_data_tbl")
 data class CommutingData(
-    @PrimaryKey(autoGenerate = true)
-    var user_id: Long?,
+    @PrimaryKey
+    var user_id: String,
     @ColumnInfo(name = "username")
     var user_name: String,
     @ColumnInfo(name = "date")

@@ -184,25 +184,25 @@
             android:gravity="center"
             android:orientation="vertical">
 
-<!--            <TextClock-->
-<!--                android:id="@+id/textDate"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textAlignment="center"-->
-<!--                android:format12Hour="yyyy/MM/dd"-->
-<!--                android:textColor="@color/colorBlack"-->
-<!--                android:textSize="20dp"-->
-<!--                android:textStyle="bold" />-->
+            <TextClock
+                android:id="@+id/textDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:format12Hour="yyyy/MM/dd"
+                android:textColor="@color/colorBlack"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
-<!--            <TextClock-->
-<!--                android:id="@+id/textClock"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textAlignment="center"-->
-<!--                android:format12Hour="hh:mm:ss a"-->
-<!--                android:textColor="@color/colorBlack"-->
-<!--                android:textSize="45dp"-->
-<!--                android:textStyle="bold" />-->
+            <TextClock
+                android:id="@+id/textClock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:format12Hour="hh:mm:ss a"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -213,15 +213,45 @@
             android:gravity="bottom"
             android:layout_marginBottom="20dp"
             android:layout_weight="2">
-            <TextView
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="出勤・退勤ボタン"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="欠勤・有給・祝日・代休・振休・夏季休暇の場合はチェックしてください。"
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="13sp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="半休の場合はチェックしてください。"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold"
+                    android:textSize="13sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -229,6 +259,7 @@
                 android:layout_gravity="center_vertical"
                 android:orientation="horizontal">
                 <Button
+                    android:id="@+id/start_work_btn"
                     android:layout_width="wrap_content"
                     style="@style/AppTheme.RoundedCornerMaterialButtonStartTime"
                     android:layout_height="match_parent"
@@ -241,6 +272,7 @@
                     android:textStyle="bold"/>
 
                 <Button
+                    android:id="@+id/leave_work_btn"
                     android:layout_width="wrap_content"
                     style="@style/AppTheme.RoundedCornerMaterialButtonEndTime"
                     android:layout_height="match_parent"
