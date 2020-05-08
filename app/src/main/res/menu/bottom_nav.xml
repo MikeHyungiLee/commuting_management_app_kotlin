@@ -2,8 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/commutingTimeRegistrationFragment"
+        android:icon="@drawable/ic_access_time_black"
         android:title="打刻"/>
     <item
         android:id="@+id/commutingTimeHistoryFragment"
+        android:icon="@drawable/ic_history_black"
         android:title="打刻履歴"/>
+    <item
+        android:icon="@drawable/ic_attach_money_black"
+        android:title="給料確認"/>
+    <item
+        android:icon="@drawable/ic_settings_black"
+        android:title="給料確認"/>
 </menu>

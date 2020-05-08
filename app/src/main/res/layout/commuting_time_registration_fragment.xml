@@ -34,23 +34,30 @@
                     android:layout_height="wrap_content"
                     android:text="株式会社イノベーションワーキングカンパニー"
                     android:textAlignment="center"
-                    android:layout_marginTop="20dp"
-                    android:textSize="15sp"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/kPalePink"
+                    android:textSize="13sp"
+                    android:padding="5dp"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:src="@drawable/company_logo"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="30dp">
 
                         <ImageView
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:background="@color/kBlue"/>
+                            android:src="@drawable/avatar"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -180,29 +187,29 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            android:layout_weight="6"
+            android:layout_weight="3"
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextClock
-                android:id="@+id/textDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:format12Hour="yyyy/MM/dd"
-                android:textColor="@color/colorBlack"
-                android:textSize="13sp"
-                android:textStyle="bold" />
+<!--            <TextClock-->
+<!--                android:id="@+id/textDate"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textAlignment="center"-->
+<!--                android:format12Hour="yyyy/MM/dd"-->
+<!--                android:textColor="@color/colorBlack"-->
+<!--                android:textSize="13sp"-->
+<!--                android:textStyle="bold" />-->
 
-            <TextClock
-                android:id="@+id/textClock"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:format12Hour="hh:mm:ss a"
-                android:textColor="@color/colorBlack"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+<!--            <TextClock-->
+<!--                android:id="@+id/textClock"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textAlignment="center"-->
+<!--                android:format12Hour="hh:mm:ss a"-->
+<!--                android:textColor="@color/colorBlack"-->
+<!--                android:textSize="20sp"-->
+<!--                android:textStyle="bold" />-->
         </LinearLayout>
 
         <LinearLayout
@@ -287,7 +294,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="※ 出勤ボタンは5５０メートル以内でクリックしてください。"
+                android:text="※ 出勤ボタンは５０メートル以内でクリックしてください。"
                 android:textSize="14sp"
                 android:textAlignment="center"
                 android:layout_marginTop="15dp">
