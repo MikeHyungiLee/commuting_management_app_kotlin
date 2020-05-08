@@ -3,4 +3,19 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="colorBlack">#000</color>
+
+    <color name="kLightYellow">#FFFFF9EC</color>
+    <color name="kLightYellow2">#FFFFE4C7</color>
+    <color name="kDarkYellow">#FFF9BE7C</color>
+    <color name="kPalePink">#FFFED4D6</color>
+
+    <color name="kRed">#FFE46472</color>
+    <color name="kLavender">#FFD5E4FE</color>
+    <color name="kBlue">#FF6488E4</color>
+    <color name="kLightGreen">#FFD9E6DC</color>
+    <color name="kGreen">#FF309397</color>
+    <color name="kDarkBlue">#FF0D253F</color>
+
 </resources>

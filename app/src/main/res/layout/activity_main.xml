@@ -22,7 +22,8 @@
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:background="@color/kBlue"
+        app:itemTextColor="@color/kLightYellow"
         app:menu="@menu/bottom_nav" />
 
 </LinearLayout>

@@ -35,10 +35,10 @@ class CommutingTimeRegistrationFragment : Fragment() {
         val viewModelFactory = CommutingTimeRegistrationViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(CommutingTimeRegistrationViewModel::class.java)
 
-        start_btn.setOnClickListener {
-              val commutingData = CommutingData(null, "S", "5/5", "出勤", "07:00", "00:00")
-              viewModel.saveCommutingData(commutingData)
-        }
+//        start_btn.setOnClickListener {
+//              val commutingData = CommutingData(null, "S", "5/5", "出勤", "07:00", "00:00")
+//              viewModel.saveCommutingData(commutingData)
+//        }
     }
 
 }

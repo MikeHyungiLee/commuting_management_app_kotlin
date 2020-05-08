@@ -1,11 +1,19 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--出勤・退勤ボタンのスタイル-->
+    <style name="AppTheme.RoundedCornerMaterialButtonStartTime" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/start_time_button_rounded_shape</item>
+    </style>
+    <style name="AppTheme.RoundedCornerMaterialButtonEndTime" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/end_time_button_rounded_shape</item>
     </style>
 
 </resources>
