@@ -13,5 +13,5 @@
         android:title="給料確認"/>
     <item
         android:icon="@drawable/ic_settings_black"
-        android:title="給料確認"/>
+        android:title="設定"/>
 </menu>
