@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "995238448318",
-    "firebase_url": "https://commutingmanagement-3132b.firebaseio.com",
-    "project_id": "commutingmanagement-3132b",
-    "storage_bucket": "commutingmanagement-3132b.appspot.com"
+    "project_number": "749793692710",
+    "firebase_url": "https://commutingmanagement-eb3b9.firebaseio.com",
+    "project_id": "commutingmanagement-eb3b9",
+    "storage_bucket": "commutingmanagement-eb3b9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:995238448318:android:6a9db22a164e7cafc122ef",
+        "mobilesdk_app_id": "1:749793692710:android:b4ff123ca72dffb282aae7",
         "android_client_info": {
           "package_name": "com.hyungilee.commutingmanagement"
         }
       },
       "oauth_client": [
         {
-          "client_id": "995238448318-qfrr5faqq0ov2656ijtlt20t3rsicmcp.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.hyungilee.commutingmanagement",
-            "certificate_hash": "c6630636bbcd95bbe9988495e4d78e9e7c5bd59d"
-          }
-        },
-        {
-          "client_id": "995238448318-srtmcvgvucf0q9c2oohlg4pavi6mqgpn.apps.googleusercontent.com",
+          "client_id": "749793692710-rci9nin6oqsnr3hvktacm22v0j2o3p42.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDJHiv2bBHQrDM3yY3iWbGv99EF_o1L-qI"
+          "current_key": "AIzaSyBWT1SMfQXHbYIYMyTLlNOyliq12HwvadQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "995238448318-srtmcvgvucf0q9c2oohlg4pavi6mqgpn.apps.googleusercontent.com",
+              "client_id": "749793692710-rci9nin6oqsnr3hvktacm22v0j2o3p42.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

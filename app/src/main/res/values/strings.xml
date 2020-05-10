@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">CommutingManagement</string>
+    <string-array name="commuting_option_array">
+        <item>欠勤</item>
+        <item>有給</item>
+        <item>祝日</item>
+        <item>代休</item>
+        <item>振休</item>
+        <item>夏季休暇</item>
+    </string-array>
+
 </resources>
