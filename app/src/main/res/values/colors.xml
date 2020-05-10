@@ -21,4 +21,7 @@
 
     <color name="grey_500">#9E9E9E</color>
 
+    <!--inactive screen color-->
+    <color name="inactive_screen_background">#99000000</color>
+
 </resources>

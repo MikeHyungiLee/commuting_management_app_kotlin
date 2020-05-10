@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -28,6 +29,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         setContentView(binding.root)
         setProgressBar(binding.progressBar)
 
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         // buttons binding
         binding.emailSignInButton.setOnClickListener(this)
         binding.emailCreateAccountButton.setOnClickListener(this)
@@ -51,10 +54,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun updateUI(user: FirebaseUser?){
         hideProgressBar()
         if(user != null){
-            binding.status.text = "Email User: $user.email (verified: ${user.isEmailVerified}) "
+            binding.status.text = "ログインしたメールアカウントは認証されたアカウントじゃないです。"
             binding.detail.text = "Firebase UID: ${user.uid}"
             binding.emailPasswordButtons.visibility = View.GONE
-            binding.emailPasswordFields.visibility = View.GONE
+            binding.emailPasswordFields.visibility = View.VISIBLE
             binding.signedInButtons.visibility = View.VISIBLE
 
             if(user.isEmailVerified){
