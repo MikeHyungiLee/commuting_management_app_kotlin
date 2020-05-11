@@ -5,12 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 import com.hyungilee.commutingmanagement.R
 import com.hyungilee.commutingmanagement.data.db.CommutingManagementDatabase
@@ -27,6 +28,10 @@ class CommutingTimeRegistrationFragment : Fragment(), AdapterView.OnItemSelected
     private lateinit var viewModel: CommutingTimeRegistrationViewModel
 
     private lateinit var spinner: Spinner
+
+    private var user: FirebaseUser?= null
+    // inactive screen layout
+    private lateinit var inactiveLayout: LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +50,13 @@ class CommutingTimeRegistrationFragment : Fragment(), AdapterView.OnItemSelected
         ).also {adapter->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
+        }
+        user = Firebase.auth.currentUser
+        //inactiveレイアウトの初期化
+        inactiveLayout = view.findViewById(R.id.commuting_check_inactive_screen)
+
+        if(user?.email != null){
+            inactiveLayout.visibility = View.GONE
         }
         return view
     }
