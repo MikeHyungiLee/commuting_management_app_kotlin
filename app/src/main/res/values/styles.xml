@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -43,6 +43,17 @@
         <item name="android:padding">4dp</item>
         <item name="android:scrollbars">vertical</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:dropDownWidth">100dp</item>
+        <item name="android:showDividers">beginning</item>
+        <item name="android:dividerHeight">100dp</item>
+        <item name="android:popupBackground">@color/kDarkYellow</item>
+        <item name="android:dropDownHeight">70dp</item>
+        <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
+        <item name="android:dropDownSelector">@color/kDarkYellow</item>
     </style>
 
 </resources>
