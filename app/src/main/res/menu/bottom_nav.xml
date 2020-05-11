@@ -9,9 +9,11 @@
         android:icon="@drawable/ic_history_black"
         android:title="打刻履歴"/>
     <item
+        android:id="@+id/salaryVerficationFragment"
         android:icon="@drawable/ic_attach_money_black"
         android:title="給料確認"/>
     <item
+        android:id="@+id/settingFragment"
         android:icon="@drawable/ic_settings_black"
         android:title="設定"/>
 </menu>

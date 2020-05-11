@@ -15,4 +15,14 @@
         android:name="com.hyungilee.commutingmanagement.ui.commutingdatahistory.CommutingDataHistoryFragment"
         android:label="commuting_time_history_fragment"
         tools:layout="@layout/commuting_time_history_fragment" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.hyungilee.commutingmanagement.ui.setting.SettingFragment"
+        android:label="setting_fragment"
+        tools:layout="@layout/setting_fragment" />
+    <fragment
+        android:id="@+id/salaryVerficationFragment"
+        android:name="com.hyungilee.commutingmanagement.ui.salaryverification.SalaryVerficationFragment"
+        android:label="salary_verfication_fragment"
+        tools:layout="@layout/salary_verfication_fragment" />
 </navigation>
