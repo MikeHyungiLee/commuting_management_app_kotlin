@@ -32,4 +32,6 @@ open class BaseActivity: AppCompatActivity() {
         hideProgressBar()
     }
 
+
+
 }
