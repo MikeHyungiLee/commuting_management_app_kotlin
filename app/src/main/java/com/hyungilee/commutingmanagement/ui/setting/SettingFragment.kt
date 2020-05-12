@@ -1,38 +1,33 @@
 package com.hyungilee.commutingmanagement.ui.setting
 
-import android.app.Activity
-import android.app.Instrumentation
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.opengl.Visibility
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 import com.hyungilee.commutingmanagement.R
 import com.hyungilee.commutingmanagement.ui.login.LoginActivity
+import com.hyungilee.commutingmanagement.ui.setting.models.CommuteData
+import com.hyungilee.commutingmanagement.ui.setting.models.User
 import com.hyungilee.commutingmanagement.utils.Constants
-import com.hyungilee.commutingmanagement.utils.Constants.INTENT_OBJECT
 import com.hyungilee.commutingmanagement.utils.ModelPreferencesManager
 import kotlinx.android.synthetic.main.setting_fragment.*
-import kotlin.math.sign
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class SettingFragment : Fragment() {
 
-    private lateinit var auth: FirebaseAuth
     // ログインボタン
     private lateinit var loginButton: Button
     // ログアウトボタン
@@ -41,6 +36,10 @@ class SettingFragment : Fragment() {
     private lateinit var user: FirebaseUser
     // ログインemailアカウント
     private lateinit var emailInfo: TextView
+    // Firebase fire store
+    private lateinit var firestore: FirebaseFirestore
+
+    private lateinit var auth: FirebaseAuth
 
     companion object {
         fun newInstance() = SettingFragment()
@@ -76,6 +75,9 @@ class SettingFragment : Fragment() {
             user = auth.currentUser as FirebaseUser
             accountInfoSetting(user)
         }
+        // Firestore初期化
+        firestore = Firebase.firestore
+
         return view
     }
 
@@ -109,10 +111,50 @@ class SettingFragment : Fragment() {
             if(auth.currentUser!=null){
                 user = auth.currentUser as FirebaseUser
                 accountInfoSetting(user)
+                writeNewUserTable(user)
+                writeNewCommutingDataTable(user)
             }
         }else{
             logoutButton.visibility = View.GONE
             loginButton.isEnabled = true
+        }
+    }
+
+    private fun getCurrentDateAndTime(): String{
+        val createdAt = LocalDateTime.now()
+        val dateString = createdAt.format(DateTimeFormatter.ISO_LOCAL_DATE)
+        val timeString = createdAt.format(DateTimeFormatter.ISO_LOCAL_TIME)
+        return "$dateString,$timeString"
+    }
+
+    private fun writeNewUserTable(user: FirebaseUser){
+
+        val userRef = firestore.collection("users").document(user.email!!)
+
+        // Documentの存在を検査する(ログインしたユーザーのユーザ情報テーブルが存在しない場合はテーブルを作成します。)
+        userRef.get().addOnSuccessListener {doc->
+            if(!doc.exists()){
+                userRef.set(User())
+                userRef.update(mapOf(
+                    "email" to user.email,
+                    "created_at" to getCurrentDateAndTime()
+                ))
+            }
+        }
+    }
+
+    private fun writeNewCommutingDataTable(user: FirebaseUser){
+        val comRef = firestore.collection("commuting_data").document(user.email!!)
+
+        // Documentの存在を検査する(ログインしたユーザーのユーザ情報テーブルが存在しない場合はテーブルを作成します。)
+        comRef.get().addOnSuccessListener {doc->
+            if(!doc.exists()){
+                comRef.set(CommuteData())
+                comRef.update(mapOf(
+                    "email" to user.email,
+                    "created_at" to getCurrentDateAndTime()
+                ))
+            }
         }
     }
 }

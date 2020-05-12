@@ -14,4 +14,6 @@ object Constants {
     const val PREFERENCE_LOGOUT_STATUS = "preference_logout_status"
 
     const val EMAIL_PASSWORD_TAG = "email_password_tag"
+
+    const val SETTING_FRAGMENT_TAG = "setting_fragment_tag"
 }
