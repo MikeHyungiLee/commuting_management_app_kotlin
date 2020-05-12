@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.hyungilee.commutingmanagement"
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -93,7 +93,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.3.1'
     // Firebase Authentication (Kotlin)
     implementation 'com.google.firebase:firebase-auth-ktx:19.3.1'
+    // Database (Kotlin)
+    implementation 'com.google.firebase:firebase-database-ktx:19.3.0'
 
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Firestore (Kotlin)
+    implementation 'com.google.firebase:firebase-firestore-ktx:21.4.3'
 
 }

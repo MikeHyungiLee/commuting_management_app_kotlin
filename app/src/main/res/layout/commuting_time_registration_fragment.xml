@@ -66,26 +66,35 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/position"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
-                                android:textSize="15sp"
+                                android:textSize="13sp"
                                 android:text="エンジニア"/>
 
                             <TextView
+                                android:id="@+id/name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
-                                android:textSize="25sp"
+                                android:textSize="22sp"
                                 android:textColor="@color/colorBlack"
-                                android:text="李　鉉基"/>
-
+                                android:text="Sample"/>
                             <TextView
+                                android:id="@+id/name_katakana"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
-                                android:textSize="15sp"
-                                android:text="イ　ヒョンギ"/>
+                                android:textSize="13sp"
+                                android:text="サンプル"/>
+                            <TextView
+                                android:id="@+id/emailAddr"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textAlignment="center"
+                                android:textSize="13sp"
+                                android:text="example@inwc.co.jp"/>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -107,32 +116,72 @@
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
                             android:text="勤怠情報"/>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="20dp"
-                            android:text="有休日数：O/O日"
-                            android:textSize="15dp"
-                            android:textColor="@color/colorBlack"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginLeft="20dp"
-                            android:text="出勤日数：O/O日"
-                            android:textSize="15dp"
-                            android:textColor="@color/colorBlack"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:text="有休日数："
+                                android:textSize="15dp"
+                                android:textColor="@color/colorBlack"/>
+
+                            <TextView
+                                android:id="@+id/num_of_paid_vacation_days"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="O/O日"
+                                android:textSize="15dp"
+                                android:textColor="@color/colorBlack"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="20dp"
+                                android:text="出勤日数："
+                                android:textSize="15dp"
+                                android:textColor="@color/colorBlack"/>
+                            <TextView
+                                android:id="@+id/num_of_working_days"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="O/O日"
+                                android:textSize="15dp"
+                                android:textColor="@color/colorBlack"/>
+                        </LinearLayout>
+                        <LinearLayout
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginLeft="20dp"
                             android:layout_marginBottom="5dp"
-                            android:text="遅刻早退回数：O回"
+                            android:text="遅刻早退回数："
                             android:textSize="15dp"
                             android:textColor="@color/colorBlack"/>
+                            <TextView
+                                android:id="@+id/num_of_lateness_and_early_leaving_days"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="5dp"
+                                android:text="O回"
+                                android:textSize="15dp"
+                                android:textColor="@color/colorBlack"/>
+                        </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
@@ -150,31 +199,70 @@
                                 android:textStyle="bold"
                                 android:text=""/>
 
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
                                 android:layout_marginLeft="20dp"
-                                android:text="欠勤日数：O日"
+                                android:text="欠勤日数："
                                 android:textSize="15dp"
                                 android:textColor="@color/colorBlack"/>
+                                <TextView
+                                    android:id="@+id/num_of_absence_days"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="O日"
+                                    android:textSize="15dp"
+                                    android:textColor="@color/colorBlack"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginLeft="20dp"
-                                android:text="今までの実働時間：O時間"
+                                android:text="今までの実働時間："
                                 android:textSize="15dp"
                                 android:textColor="@color/colorBlack"/>
+                                <TextView
+                                    android:id="@+id/actual_working_hours"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:text="O時間"
+                                    android:textSize="15dp"
+                                    android:textColor="@color/colorBlack"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginLeft="20dp"
                                 android:layout_marginBottom="5dp"
-                                android:text="遅刻早退時間：O時間"
+                                android:text="遅刻早退時間："
                                 android:textSize="15dp"
                                 android:textColor="@color/colorBlack"/>
+
+                                <TextView
+                                    android:id="@+id/num_of_lateness_and_early_leaving_hours"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:text="O時間"
+                                    android:textSize="15dp"
+                                    android:textColor="@color/colorBlack"/>
+                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -206,7 +294,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-                <com.google.android.material.checkbox.MaterialCheckBox
+                <CheckBox
+                    android:id="@+id/checkbox_option_1"
                     android:layout_width="30dp"
                     android:layout_height="30dp"/>
             <TextView
@@ -225,7 +314,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-                <com.google.android.material.checkbox.MaterialCheckBox
+                <CheckBox
+                    android:id="@+id/checkbox_option_2"
                     android:layout_width="30dp"
                     android:layout_height="30dp"/>
                 <TextView
