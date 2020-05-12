@@ -1,5 +1,6 @@
 package com.hyungilee.commutingmanagement.ui.commutingtimeregistration
 
+import android.location.Location
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -27,7 +28,7 @@ import com.hyungilee.commutingmanagement.ui.setting.models.CommuteData
 import com.hyungilee.commutingmanagement.ui.setting.models.User
 import kotlinx.android.synthetic.main.commuting_time_registration_fragment.*
 
-class CommutingTimeRegistrationFragment : Fragment(), AdapterView.OnItemSelectedListener {
+class CommutingTimeRegistrationFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     companion object {
         fun newInstance() = CommutingTimeRegistrationFragment()
@@ -61,7 +62,9 @@ class CommutingTimeRegistrationFragment : Fragment(), AdapterView.OnItemSelected
     // Button layout
     private lateinit var commutingBtnLayout: LinearLayout
     private lateinit var firstOptionLayout: LinearLayout
-
+    // 出勤・退勤ボタン
+    private lateinit var startWorkBtn: Button
+    private lateinit var leaveWorkBtn: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -103,36 +106,10 @@ class CommutingTimeRegistrationFragment : Fragment(), AdapterView.OnItemSelected
         // Firestoreから取得したデータを使ってUI要素の値を初期化する
         initUIvalue()
 
-        checkbox1.setOnCheckedChangeListener { _, isChecked ->
-            if(checkbox2.isChecked){
-                Snackbar.make(requireView(),"一つのオプションだけ選択してください。", 3000).show()
-                firstOptionLayout.visibility = View.GONE
-                commutingBtnLayout.visibility = View.VISIBLE
-            }else{
-                if(isChecked) {
-                    firstOptionLayout.visibility = View.VISIBLE
-                    commutingBtnLayout.visibility = View.GONE
-                }else{
-                    firstOptionLayout.visibility = View.GONE
-                    commutingBtnLayout.visibility = View.VISIBLE
-                }
-            }
-        }
-        checkbox2.setOnCheckedChangeListener { _, isChecked ->
-            if(checkbox1.isChecked){
-                Snackbar.make(requireView(),"一つのオプションだけ選択してください。", 3000).show()
-                firstOptionLayout.visibility = View.VISIBLE
-                commutingBtnLayout.visibility = View.GONE
-            }else{
-                if(isChecked) {
-                    commutingBtnLayout.visibility = View.VISIBLE
-                    firstOptionLayout.visibility = View.GONE
-                }else{
-                    firstOptionLayout.visibility = View.GONE
-                    commutingBtnLayout.visibility = View.VISIBLE
-                }
-            }
-        }
+        // 打刻チェック画面であるチェックボックスのイベント処理メソッド
+        checkbox1Event()
+        checkbox2Event()
+
         return view
     }
 
@@ -142,8 +119,6 @@ class CommutingTimeRegistrationFragment : Fragment(), AdapterView.OnItemSelected
         val repository = CommutingDatabaseRepository(database)
         val viewModelFactory = CommutingTimeRegistrationViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(CommutingTimeRegistrationViewModel::class.java)
-
-
     }
 
     // Spinnerのアイテムクリックイベントメソット
@@ -202,6 +177,60 @@ class CommutingTimeRegistrationFragment : Fragment(), AdapterView.OnItemSelected
         // button layout
         commutingBtnLayout = view.findViewById(R.id.commuting_button_layout)
         firstOptionLayout = view.findViewById(R.id.first_option)
+        // 出勤・退勤ボタンの初期化
+        startWorkBtn = view.findViewById(R.id.start_work_btn)
+        leaveWorkBtn = view.findViewById(R.id.leave_work_btn)
+    }
+
+    private fun checkbox1Event(){
+        checkbox1.setOnCheckedChangeListener { _, isChecked ->
+            if(checkbox2.isChecked){
+                Snackbar.make(requireView(),"一つのオプションだけ選択してください。", 3000).show()
+                firstOptionLayout.visibility = View.GONE
+                commutingBtnLayout.visibility = View.VISIBLE
+            }else{
+                if(isChecked) {
+                    firstOptionLayout.visibility = View.VISIBLE
+                    commutingBtnLayout.visibility = View.GONE
+                }else{
+                    firstOptionLayout.visibility = View.GONE
+                    commutingBtnLayout.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    private fun checkbox2Event(){
+        checkbox2.setOnCheckedChangeListener { _, isChecked ->
+            if(checkbox1.isChecked){
+                Snackbar.make(requireView(),"一つのオプションだけ選択してください。", 3000).show()
+                firstOptionLayout.visibility = View.VISIBLE
+                commutingBtnLayout.visibility = View.GONE
+            }else{
+                if(isChecked) {
+                    commutingBtnLayout.visibility = View.VISIBLE
+                    firstOptionLayout.visibility = View.GONE
+                }else{
+                    firstOptionLayout.visibility = View.GONE
+                    commutingBtnLayout.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    override fun onClick(v: View) {
+        val item_id = v.id
+        when(item_id){
+//            R.id.start_work_btn ->
+//            val commutingData = CommutingData(3, "Mike", "5/5", "出勤", "07:00", "08:00")
+//            mainViewModel.saveCommutingData(commutingData)
+        }
+    }
+
+    fun saveCommutingData(){
+//        val commutingData = CommutingData(3, "Mike", "5/5", "出勤", "07:00", "08:00")
+//        viewModel.saveCommutingData()
+
     }
 
 }
