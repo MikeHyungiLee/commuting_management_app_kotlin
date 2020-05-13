@@ -38,6 +38,7 @@ import com.hyungilee.commutingmanagement.data.entity.CommutingData
 import com.hyungilee.commutingmanagement.data.repository.CommutingDatabaseRepository
 import com.hyungilee.commutingmanagement.ui.setting.models.CommuteData
 import com.hyungilee.commutingmanagement.ui.setting.models.User
+import com.hyungilee.commutingmanagement.utils.Constants.DISTANCE_STANDARD
 import kotlinx.android.synthetic.main.commuting_time_registration_fragment.*
 
 
@@ -83,6 +84,10 @@ class CommutingTimeRegistrationFragment :
 
     // 位置情報
     private lateinit var locationManager: LocationManager
+    private var currentLocationLon: Double? = 0.0
+    private var currentLocationLat: Double? = 0.0
+    private var workLocationLon: Double? = 0.0
+    private var workLocationLat: Double? = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -145,6 +150,9 @@ class CommutingTimeRegistrationFragment :
             }
 
         }
+
+        // 現場の位置情報初期化
+        initWorkLocation()
 
         return view
     }
@@ -257,13 +265,22 @@ class CommutingTimeRegistrationFragment :
     override fun onClick(v: View) {
         val item_id = v.id
         when(item_id){
-//            R.id.start_work_btn ->
+            R.id.start_work_btn -> saveCommutingData()
 //            val commutingData = CommutingData(3, "Mike", "5/5", "出勤", "07:00", "08:00")
 //            mainViewModel.saveCommutingData(commutingData)
         }
     }
 
-    fun saveCommutingData(){
+    private fun saveCommutingData(){
+        val checkDistance = calDistance()
+
+        if(checkDistance < DISTANCE_STANDARD){
+            // 50メートル以内の位置で出勤ボタンを押した時の処理
+
+        }else{
+            // 50メートル以外の位置で出勤ボタンを押した時の処理
+            Snackbar.make(requireView(), "勤務地から50メートル以内で出勤可能です。", 3000).show()
+        }
 //        val commutingData = CommutingData(3, "Mike", "5/5", "出勤", "07:00", "08:00")
 //        viewModel.saveCommutingData()
 
@@ -276,9 +293,15 @@ class CommutingTimeRegistrationFragment :
         // Longitude
         val lon = "Longitude:" + location?.longitude
 
-        Toast.makeText(requireContext(), "$lat, $lon", Toast.LENGTH_LONG).show()
+        currentLocationLat = location?.latitude
+        currentLocationLon = location?.longitude
 
+
+
+        Toast.makeText(requireContext(), "$lat, $lon", Toast.LENGTH_LONG).show()
+        // 37 -122
     }
+
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
         TODO("Not yet implemented")
@@ -324,6 +347,28 @@ class CommutingTimeRegistrationFragment :
             1000,
             50f,
             this)
+    }
+
+    // 現場の位置情報初期化
+    private fun initWorkLocation(){
+        workLocationLat = 50.0
+        workLocationLon = 100.0
+    }
+
+    // 距離計算メソッド
+    private fun calDistance(): Float{
+        //現在の位置情報
+        val currentLoc = Location("Current_Location")
+        currentLoc.latitude = currentLocationLat!!
+        currentLoc.longitude = currentLocationLon!!
+
+        //勤務地の位置情報
+        val workLoc = Location("Work_Location")
+        workLoc.latitude = workLocationLat!!
+        workLoc.longitude = workLocationLon!!
+
+        //現在位置から勤務地までの距離を返却
+        return currentLoc.distanceTo(workLoc)
     }
 
 }

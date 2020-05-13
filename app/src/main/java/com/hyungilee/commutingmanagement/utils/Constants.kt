@@ -2,6 +2,9 @@ package com.hyungilee.commutingmanagement.utils
 
 object Constants {
 
+    // DISTANCE 基準
+    const val DISTANCE_STANDARD = 50.0f
+
     const val INTENT_OBJECT = "intent_object"
 
     // SharedPreference ファイル名

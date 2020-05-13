@@ -21,6 +21,7 @@ import com.hyungilee.commutingmanagement.ui.login.LoginActivity
 import com.hyungilee.commutingmanagement.ui.setting.models.CommuteData
 import com.hyungilee.commutingmanagement.ui.setting.models.User
 import com.hyungilee.commutingmanagement.utils.Constants
+import com.hyungilee.commutingmanagement.utils.CurrentDateTime
 import com.hyungilee.commutingmanagement.utils.ModelPreferencesManager
 import kotlinx.android.synthetic.main.setting_fragment.*
 import java.time.LocalDateTime
@@ -120,24 +121,19 @@ class SettingFragment : Fragment() {
         }
     }
 
-    private fun getCurrentDateAndTime(): String{
-        val createdAt = LocalDateTime.now()
-        val dateString = createdAt.format(DateTimeFormatter.ISO_LOCAL_DATE)
-        val timeString = createdAt.format(DateTimeFormatter.ISO_LOCAL_TIME)
-        return "$dateString,$timeString"
-    }
-
     private fun writeNewUserTable(user: FirebaseUser){
 
         val userRef = firestore.collection("users").document(user.email!!)
 
         // Documentの存在を検査する(ログインしたユーザーのユーザ情報テーブルが存在しない場合はテーブルを作成します。)
         userRef.get().addOnSuccessListener {doc->
+            val currentDate = CurrentDateTime.getCurrentDate()
+            val currentTime = CurrentDateTime.getCurrentTime()
             if(!doc.exists()){
                 userRef.set(User())
                 userRef.update(mapOf(
                     "email" to user.email,
-                    "created_at" to getCurrentDateAndTime()
+                    "created_at" to "$currentDate,$currentTime"
                 ))
             }
         }
@@ -148,11 +144,13 @@ class SettingFragment : Fragment() {
 
         // Documentの存在を検査する(ログインしたユーザーのユーザ情報テーブルが存在しない場合はテーブルを作成します。)
         comRef.get().addOnSuccessListener {doc->
+            val currentDate = CurrentDateTime.getCurrentDate()
+            val currentTime = CurrentDateTime.getCurrentTime()
             if(!doc.exists()){
                 comRef.set(CommuteData())
                 comRef.update(mapOf(
                     "email" to user.email,
-                    "created_at" to getCurrentDateAndTime()
+                    "created_at" to "$currentDate,$currentTime"
                 ))
             }
         }
