@@ -8,5 +8,8 @@
         <item>振休</item>
         <item>夏季休暇</item>
     </string-array>
+    <string name="slash_with_day">%2$d/%2$d日</string>
+    <string name="with_day">%1$s日</string>
+    <string name="with_hour">%1$s時間</string>
 
 </resources>

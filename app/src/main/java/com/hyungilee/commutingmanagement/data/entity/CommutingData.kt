@@ -13,10 +13,10 @@ data class CommutingData(
     var user_name: String,
     @ColumnInfo(name = "category")
     var category: String,
-    @ColumnInfo(name = "location_lon")
-    var location_lon: String,
     @ColumnInfo(name = "location_lat")
     var location_lat: String,
+    @ColumnInfo(name = "location_lon")
+    var location_lon: String,
     @ColumnInfo(name = "date")
     var date: String,
     @ColumnInfo(name = "startTime")
@@ -35,7 +35,7 @@ data class CommutingData(
     var holiday_work_hours: String
 ){
     override fun toString(): String {
-        return "user_id: $user_id, user_name: $user_name, date: $date, category: $category," +
+        return "user_email: $user_id, user_name: $user_name, date: $date, category: $category," +
                 "start_time: $start_time, leave_time: $leave_time"
     }
 }
