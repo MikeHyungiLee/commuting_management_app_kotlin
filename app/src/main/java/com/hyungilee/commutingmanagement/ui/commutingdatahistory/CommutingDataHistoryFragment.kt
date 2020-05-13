@@ -54,6 +54,7 @@ class CommutingDataHistoryFragment : Fragment() {
 
     @Suppress("UNCHECKED_CAST")
     private fun initializeData() {
+        // この部分でデータベースを初期化する
 
         val randomDataFactory = RandomDataFactory(500, 500)
         val tableAdapter = RandomDataTableViewAdapter(mainView!!.context)

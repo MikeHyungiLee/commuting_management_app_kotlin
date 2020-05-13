@@ -1,12 +1,24 @@
 package com.hyungilee.commutingmanagement.ui.commutingtimeregistration
 
+import android.Manifest
+import android.content.Context
+import android.content.Context.LOCATION_SERVICE
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -26,9 +38,13 @@ import com.hyungilee.commutingmanagement.data.entity.CommutingData
 import com.hyungilee.commutingmanagement.data.repository.CommutingDatabaseRepository
 import com.hyungilee.commutingmanagement.ui.setting.models.CommuteData
 import com.hyungilee.commutingmanagement.ui.setting.models.User
+import com.hyungilee.commutingmanagement.utils.Constants.DISTANCE_STANDARD
 import kotlinx.android.synthetic.main.commuting_time_registration_fragment.*
 
-class CommutingTimeRegistrationFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnClickListener {
+
+class CommutingTimeRegistrationFragment :
+    Fragment(), AdapterView.OnItemSelectedListener, View.OnClickListener,
+    LocationListener{
 
     companion object {
         fun newInstance() = CommutingTimeRegistrationFragment()
@@ -65,6 +81,13 @@ class CommutingTimeRegistrationFragment : Fragment(), AdapterView.OnItemSelected
     // 出勤・退勤ボタン
     private lateinit var startWorkBtn: Button
     private lateinit var leaveWorkBtn: Button
+
+    // 位置情報
+    private lateinit var locationManager: LocationManager
+    private var currentLocationLon: Double? = 0.0
+    private var currentLocationLat: Double? = 0.0
+    private var workLocationLon: Double? = 0.0
+    private var workLocationLat: Double? = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -109,6 +132,27 @@ class CommutingTimeRegistrationFragment : Fragment(), AdapterView.OnItemSelected
         // 打刻チェック画面であるチェックボックスのイベント処理メソッド
         checkbox1Event()
         checkbox2Event()
+
+        // GPS 権限設定
+        if (ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1000)
+        } else {
+            locationStart()
+            if (::locationManager.isInitialized) {
+                locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    1000,
+                    50f,
+                    this)
+            }
+
+        }
+
+        // 現場の位置情報初期化
+        initWorkLocation()
 
         return view
     }
@@ -221,16 +265,110 @@ class CommutingTimeRegistrationFragment : Fragment(), AdapterView.OnItemSelected
     override fun onClick(v: View) {
         val item_id = v.id
         when(item_id){
-//            R.id.start_work_btn ->
+            R.id.start_work_btn -> saveCommutingData()
 //            val commutingData = CommutingData(3, "Mike", "5/5", "出勤", "07:00", "08:00")
 //            mainViewModel.saveCommutingData(commutingData)
         }
     }
 
-    fun saveCommutingData(){
+    private fun saveCommutingData(){
+        val checkDistance = calDistance()
+
+        if(checkDistance < DISTANCE_STANDARD){
+            // 50メートル以内の位置で出勤ボタンを押した時の処理
+
+        }else{
+            // 50メートル以外の位置で出勤ボタンを押した時の処理
+            Snackbar.make(requireView(), "勤務地から50メートル以内で出勤可能です。", 3000).show()
+        }
 //        val commutingData = CommutingData(3, "Mike", "5/5", "出勤", "07:00", "08:00")
 //        viewModel.saveCommutingData()
 
+    }
+
+    override fun onLocationChanged(location: Location?) {
+        // Latitude
+        val lat = "Latitude:" + location?.latitude
+
+        // Longitude
+        val lon = "Longitude:" + location?.longitude
+
+        currentLocationLat = location?.latitude
+        currentLocationLon = location?.longitude
+
+
+
+        Toast.makeText(requireContext(), "$lat, $lon", Toast.LENGTH_LONG).show()
+        // 37 -122
+    }
+
+
+    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onProviderEnabled(provider: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onProviderDisabled(provider: String?) {
+        TODO("Not yet implemented")
+    }
+
+    // GPS機能起動するメソッド
+    private fun locationStart() {
+        Log.d("debug", "locationStart()")
+
+        // Instances of LocationManager class must be obtained using Context.getSystemService(Class)
+        locationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
+
+        val locationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
+
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Log.d("debug", "location manager Enabled")
+        } else {
+            // to prompt setting up GPS
+            val settingsIntent = Intent(ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(settingsIntent)
+            Log.d("debug", "not gpsEnable, startActivity")
+        }
+
+        if (ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1000)
+
+            Log.d("debug", "checkSelfPermission false")
+            return
+        }
+
+        locationManager.requestLocationUpdates(
+            LocationManager.GPS_PROVIDER,
+            1000,
+            50f,
+            this)
+    }
+
+    // 現場の位置情報初期化
+    private fun initWorkLocation(){
+        workLocationLat = 50.0
+        workLocationLon = 100.0
+    }
+
+    // 距離計算メソッド
+    private fun calDistance(): Float{
+        //現在の位置情報
+        val currentLoc = Location("Current_Location")
+        currentLoc.latitude = currentLocationLat!!
+        currentLoc.longitude = currentLocationLon!!
+
+        //勤務地の位置情報
+        val workLoc = Location("Work_Location")
+        workLoc.latitude = workLocationLat!!
+        workLoc.longitude = workLocationLon!!
+
+        //現在位置から勤務地までの距離を返却
+        return currentLoc.distanceTo(workLoc)
     }
 
 }
