@@ -31,6 +31,7 @@ import com.google.firebase.ktx.Firebase
 
 import com.hyungilee.commutingmanagement.R
 import com.hyungilee.commutingmanagement.data.db.CommutingManagementDatabase
+import com.hyungilee.commutingmanagement.data.entity.CommutingData
 import com.hyungilee.commutingmanagement.data.repository.CommutingDatabaseRepository
 import com.hyungilee.commutingmanagement.ui.setting.models.CommuteData
 import com.hyungilee.commutingmanagement.ui.setting.models.User
@@ -188,19 +189,17 @@ class CommutingTimeRegistrationFragment :
                 val commuteData = documentSnapshot.toObject<CommuteData>()
                 if (commuteData != null) {
                     numOfPaidVacationDays.text =
-                        "${commuteData.num_of_used_paid_vacation_days}/${commuteData.num_of_paid_vacation_days.toString()}" + "日"
+                        getString(R.string.slash_with_day, commuteData.num_of_used_paid_vacation_days,commuteData.num_of_paid_vacation_days)
                     numOfWorkingDays.text =
-                        "${commuteData.actual_working_days}/${commuteData.num_of_working_days.toString()}" + "日"
+                        getString(R.string.slash_with_day,commuteData.actual_working_days, commuteData.num_of_working_days)
                     val latPlusEarlyLeavingDays =
                         commuteData.num_of_lateness_days!! + commuteData.num_of_early_leaving_days!!
-                    numOfLatenessAndEarlyLeavingDays.text = latPlusEarlyLeavingDays.toString() + "日"
-                    numOfAbsenceDays.text = commuteData.num_of_absence_days.toString() + "日"
-                    actualWorkingHours.text =
-                        commuteData.num_of_actual_lateness_hours.toString() + "時間"
+                    numOfLatenessAndEarlyLeavingDays.text = getString(R.string.with_day, latPlusEarlyLeavingDays.toString())
+                    numOfAbsenceDays.text = getString(R.string.with_day,commuteData.num_of_absence_days.toString())
+                    actualWorkingHours.text = getString(R.string.with_hour,commuteData.num_of_actual_lateness_hours.toString())
                     val latPlusEarlyLeavingHours =
                         commuteData.num_of_actual_lateness_hours!! + commuteData.num_of_early_leaving_hours!!
-                    numOfLatenessAndEarlyLeavingHours.text =
-                        latPlusEarlyLeavingHours.toString() + "時間"
+                    numOfLatenessAndEarlyLeavingHours.text = getString(R.string.with_hour, latPlusEarlyLeavingHours.toString())
                 }
             }
         }
@@ -272,30 +271,41 @@ class CommutingTimeRegistrationFragment :
             workLocationLat!!,
             workLocationLon!!
         )
-        Toast.makeText(requireContext(), "Show up", Toast.LENGTH_LONG).show()
-        calWorkingHours()
-//        if(checkDistance < DISTANCE_STANDARD){
-        if (true) {
-//            val userObject = getFirebaseUserObject(user)
-//            if(userObject != null){
-//                // 50メートル以内の位置で出勤ボタンを押した時の処理
-//                val commutingData = CommutingData(
-//                    userObject.email.toString(),
-//                    "出勤",
-//                    currentLocationLat.toString(),
-//                    currentLocationLon.toString(),
-//                    CurrentDateTime.getCurrentDate(),
-//                    CurrentDateTime.getCurrentTime(),
-//                    "00:00",
-//                    "01:00",
-//
-//
-//                )
-//            }
-        } else {
-            // 50メートル以外の位置で出勤ボタンを押した時の処理
-            Snackbar.make(requireView(), "勤務地から50メートル以内で出勤可能です。", 3000).show()
+
+        if (user !== null) {
+            val userRef = firestore.collection("users").document(user!!.email!!)
+            userRef.get().addOnSuccessListener { documentSnapshot ->
+                val user = documentSnapshot.toObject<User>()
+                if (user != null) {
+
+                    // 50メートル以内の位置で出勤ボタンを押した時の処理
+                    val commutingData = CommutingData(
+                        null,
+                        user.full_name.toString(),
+                        "出勤",
+                        currentLocationLat.toString(),
+                        currentLocationLon.toString(),
+                        CurrentDateTime.getCurrentDate(),
+                        CurrentDateTime.getCurrentTime(),
+                        "00:00",
+                        "01:00",
+                        "00:00",
+                        "00:00",
+                        "00:00",
+                        "00:00"
+                    )
+                    Toast.makeText(requireContext(),commutingData.toString(),Toast.LENGTH_LONG).show()
+                    viewModel.saveCommutingData(commutingData)
+
+                }
+            }
         }
+
+//        if(checkDistance < DISTANCE_STANDARD){
+//        } else {
+        // 50メートル以外の位置で出勤ボタンを押した時の処理
+//            Snackbar.make(requireView(), "勤務地から50メートル以内で出勤可能です。", 3000).show()
+//        }
 //        val commutingData = CommutingData(3, "Mike", "5/5", "出勤", "07:00", "08:00")
 //        viewModel.saveCommutingData()
 
@@ -412,25 +422,26 @@ class CommutingTimeRegistrationFragment :
                     userObject = user
                 }
             }
-            if (userObject != null) {
-                // 出勤時間
-                val startTime = userObject!!.start_time
-                val startTimeHour = startTime?.substringBefore(":")?.toInt()
-                val startTimeMin = startTime?.substringAfter(":")?.toInt()
-                // 出勤計算用
-                val startTimeSum = startTimeHour?.times(60)?.plus(startTimeMin!!)
-
-                // 退勤時間
-                val currentTime = CurrentDateTime.getCurrentTime()
-                val firstSubset = currentTime.substringBefore(":").toInt()
-                val otherSubsets = currentTime.substringAfter(":")
-                val otherFirstSubset = otherSubsets.substringBefore(":").toInt()
-                // 退勤計算用
-                val leaveTimeSum = firstSubset.times(60).plus(otherFirstSubset)
-                // 残業時間計算
-                overTime = leaveTimeSum - startTimeSum!!
-            }
         }
+        if (userObject != null) {
+            // 出勤時間
+            val startTime = userObject!!.start_time
+            val startTimeHour = startTime?.substringBefore(":")?.toInt()
+            val startTimeMin = startTime?.substringAfter(":")?.toInt()
+            // 出勤計算用
+            val startTimeSum = startTimeHour?.times(60)?.plus(startTimeMin!!)
+
+            // 退勤時間
+            val currentTime = CurrentDateTime.getCurrentTime()
+            val firstSubset = currentTime.substringBefore(":").toInt()
+            val otherSubsets = currentTime.substringAfter(":")
+            val otherFirstSubset = otherSubsets.substringBefore(":").toInt()
+            // 退勤計算用
+            val leaveTimeSum = firstSubset.times(60).plus(otherFirstSubset)
+            // 残業時間計算
+            overTime = leaveTimeSum - startTimeSum!!
+        }
+
         return "${overTime / 60}:${overTime % 60}"
     }
 }
