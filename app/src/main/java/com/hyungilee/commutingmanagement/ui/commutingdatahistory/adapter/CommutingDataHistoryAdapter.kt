@@ -32,7 +32,7 @@ class CommutingDataHistoryAdapter: RecyclerView.Adapter<CommutingDataHistoryAdap
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         fun bind(commutingData: CommutingData){
-            itemView.user_id.text = commutingData.user_id.toString()
+            itemView.user_id.text = commutingData.id.toString()
             itemView.user_name.text = commutingData.user_name
             itemView.date.text = commutingData.date
             itemView.start_time.text = commutingData.start_time

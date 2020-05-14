@@ -1,14 +1,13 @@
 package com.hyungilee.commutingmanagement.data.entity
 
-import android.location.Location
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "commuting_data_tbl")
 data class CommutingData(
-    @PrimaryKey
-    var user_id: String,
+    @PrimaryKey(autoGenerate = true)
+    var id: Int?,
     @ColumnInfo(name = "username")
     var user_name: String,
     @ColumnInfo(name = "category")
@@ -35,7 +34,7 @@ data class CommutingData(
     var holiday_work_hours: String
 ){
     override fun toString(): String {
-        return "user_email: $user_id, user_name: $user_name, date: $date, category: $category," +
+        return "id: $id, user_name: $user_name, date: $date, category: $category," +
                 "start_time: $start_time, leave_time: $leave_time"
     }
 }

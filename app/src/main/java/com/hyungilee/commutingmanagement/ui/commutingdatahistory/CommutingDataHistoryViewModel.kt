@@ -10,7 +10,7 @@ import com.hyungilee.commutingmanagement.data.repository.CommutingDatabaseReposi
 class CommutingDataHistoryViewModel(private val repository: CommutingDatabaseRepository) : ViewModel() {
 
     private val allCommutingData: LiveData<List<CommutingData>> =
-        repository.getAllCommutingData()
+            repository.getAllCommutingData()
 
     fun saveCommutingData(commutingData: CommutingData){
         repository.saveCommutingData(commutingData)
@@ -18,6 +18,10 @@ class CommutingDataHistoryViewModel(private val repository: CommutingDatabaseRep
 
     fun getAllCommutingData(): LiveData<List<CommutingData>> {
         return allCommutingData
+    }
+
+    fun getCommutingRowData(rowNum: Int): LiveData<CommutingData>{
+        return repository.getRowCommutingData(rowNum)
     }
 
 }

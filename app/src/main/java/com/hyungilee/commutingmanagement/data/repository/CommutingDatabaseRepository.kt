@@ -30,20 +30,8 @@ class CommutingDatabaseRepository(private val db: CommutingManagementDatabase) {
         return allCommutingData
     }
 
-    private fun loadSampleData(){
-        val reference: DatabaseReference = FirebaseDatabase.getInstance().reference
-        val query = reference.child("");
-        query.addListenerForSingleValueEvent(object: ValueEventListener{
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                commutingDataModels.add(snapshot.getValue(CommutingData::class.java)!!)
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-
-        })
+    fun getRowCommutingData(rowNum: Int): LiveData<CommutingData>{
+        return commutingDatabaseDao.getCommutingRowData(rowNum)
     }
 
 }
