@@ -58,14 +58,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
-            <ph.ingenuity.tableview.TableView
-                android:id="@+id/random_data_tableview"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/commuting_time_history_rv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:table_row_header_width="@dimen/row_header_width"
-                app:table_selected_color="@color/kRed"
-                app:table_show_horizontal_separator="true"
-                app:table_show_vertical_separator="true"/>
+                android:layout_height="match_parent"/>
+
         </LinearLayout>
 
     </LinearLayout>

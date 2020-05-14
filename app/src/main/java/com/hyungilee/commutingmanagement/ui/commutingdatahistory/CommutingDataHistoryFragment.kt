@@ -13,11 +13,11 @@ import com.hyungilee.commutingmanagement.R
 import com.hyungilee.commutingmanagement.data.db.CommutingManagementDatabase
 import com.hyungilee.commutingmanagement.data.repository.CommutingDatabaseRepository
 import com.hyungilee.commutingmanagement.ui.commutingdatahistory.adapter.CommutingDataHistoryAdapter
-import com.hyungilee.commutingmanagement.ui.commutingdatahistory.adapter.RandomDataFactory
-import com.hyungilee.commutingmanagement.ui.commutingdatahistory.adapter.RandomDataTableViewAdapter
+import com.hyungilee.commutingmanagement.ui.commutingdatahistory.adapter.CommutingDataHistoryBindAdapter
 import kotlinx.android.synthetic.main.commuting_time_history_fragment.*
 import ph.ingenuity.tableview.TableView
 
+@Suppress("UNCHECKED_CAST")
 class CommutingDataHistoryFragment : Fragment() {
 
     companion object {
@@ -25,15 +25,18 @@ class CommutingDataHistoryFragment : Fragment() {
     }
 
     private lateinit var viewModel: CommutingDataHistoryViewModel
-    private lateinit var commutingDataHistoryAdapter: CommutingDataHistoryAdapter
-
-    private lateinit var tableView: TableView
-    private var mainView: View? = null
+   private var mainView: View? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val database = CommutingManagementDatabase.invoke(requireContext())
+        val repository = CommutingDatabaseRepository(database)
+        val viewModelFactory = CommutingDataHistoryViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(CommutingDataHistoryViewModel::class.java)
+
         if (mainView != null) {
             var parent = mainView!!.parent as ViewGroup?
             if (parent == null) {
@@ -43,47 +46,85 @@ class CommutingDataHistoryFragment : Fragment() {
             return mainView as View
         }
         mainView = inflater.inflate(R.layout.commuting_time_history_fragment, container, false)
-        initializeViews()
-        initializeData()
+
         return mainView as View
-    }
-
-    private fun initializeViews() {
-        tableView = mainView!!.findViewById(R.id.random_data_tableview)
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    private fun initializeData() {
-        // この部分でデータベースを初期化する
-
-        val randomDataFactory = RandomDataFactory(500, 500)
-        val tableAdapter = RandomDataTableViewAdapter(mainView!!.context)
-        val cellsList = randomDataFactory.randomCellsList as List<List<Any>>
-        val rowHeadersList = randomDataFactory.randomRowHeadersList as List<Any>
-        val columnHeadersList = randomDataFactory.randomColumnHeadersList as List<Any>
-        tableView.adapter = tableAdapter
-        tableAdapter.setAllItems(cellsList, columnHeadersList, rowHeadersList)
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val database = CommutingManagementDatabase.invoke(requireContext())
-        val repository = CommutingDatabaseRepository(database)
-        val viewModelFactory = CommutingDataHistoryViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(CommutingDataHistoryViewModel::class.java)
 
         viewModel.getAllCommutingData().observe(viewLifecycleOwner, Observer { list ->
-            commutingDataHistoryAdapter = CommutingDataHistoryAdapter()
-            commutingDataHistoryAdapter.setCommutingDataList(list)
-//            commuting_time_history_rv.also {rv->
-//                rv.layoutManager = LinearLayoutManager(requireContext())
-//                rv.adapter = commutingDataHistoryAdapter
-//            }
 
+            commuting_time_history_rv.also {rv->
+                rv.layoutManager = LinearLayoutManager(requireContext())
+                rv.adapter = CommutingDataHistoryBindAdapter(list)
+            }
         })
 
-    }
+//        viewModel.getAllCommutingData().observe(viewLifecycleOwner, Observer { list ->
+//            Toast.makeText(requireContext(), "CheckListVal: $list", Toast.LENGTH_LONG).show()
+//        })
 
+
+//        var[0]id: Int?,
+//        @ColumnInfo(name = "username")
+//        var [1]user_name: String,
+//        @ColumnInfo(name = "category")
+//        var [2]category: String,
+//        @ColumnInfo(name = "location_lat")
+//        var [3]location_lat: String,
+//        @ColumnInfo(name = "location_lon")
+//        var [4]location_lon: String,
+//        @ColumnInfo(name = "date")
+//        var [5]date: String,
+//        @ColumnInfo(name = "startTime")
+//        var [6]start_time: String,
+//        @ColumnInfo(name = "leaveTime")
+//        var [7]leave_time: String,
+//        @ColumnInfo(name = "restTime")
+//        var [8]rest_time: String,
+//        @ColumnInfo(name = "workHours")
+//        var [9]work_hours: String,
+//        @ColumnInfo(name = "overTimeHours")
+//        var [10]over_time: String,
+//        @ColumnInfo(name = "midnightWorkHour")
+//        var [11]midnight_work_hours: String,
+//        @ColumnInfo(name = "holidayWorkHour")
+//        var [12]holiday_work_hours: String
+
+
+//        (1 until 32).forEach {row->
+//            viewModel.getCommutingRowData(row).observe(viewLifecycleOwner, Observer { list ->
+//                val randomCellsList = mutableListOf<Any>()
+//                if(list != null) {
+//                    val cellList = mutableListOf<Any>()
+//                    (1 .. 11).forEach { column ->
+//                        var data: Any = ""
+//                        when(column){
+//                            1->{data = list.category}
+//                            2->{data = list.location_lat}
+//                            3->{data = list.location_lon}
+//                            4->{data = list.date}
+//                            5->{data = list.start_time}
+//                            6->{data = list.leave_time}
+//                            7->{data = list.rest_time}
+//                            8->{data = list.work_hours}
+//                            9->{data = list.over_time}
+//                            10->{data = list.midnight_work_hours}
+//                            11->{data = list.holiday_work_hours}
+//                        }
+//                        cellList.add(RandomDataCell(data, "$column,$row"))
+////                        Toast.makeText(requireContext(), data.toString(), Toast.LENGTH_LONG).show()
+//                    }
+//                    randomCellsList.add(cellList)
+//                }
+//                //Toast.makeText(requireContext(), randomCellsList.toString(), Toast.LENGTH_LONG).show()
+////                initializeData(randomCellsList as List<List<Any>>)
+//            })
+//
+//        }
+
+
+    }
 }

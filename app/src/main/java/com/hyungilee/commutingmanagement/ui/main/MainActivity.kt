@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
+import com.facebook.stetho.Stetho
 import com.hyungilee.commutingmanagement.R
 import com.hyungilee.commutingmanagement.data.entity.CommutingData
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,5 +24,6 @@ class MainActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         bottom_nav.setupWithNavController(navController)
 
+        Stetho.initializeWithDefaults(this);
     }
 }
