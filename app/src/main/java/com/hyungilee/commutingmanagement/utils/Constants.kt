@@ -1,10 +1,11 @@
 package com.hyungilee.commutingmanagement.utils
 
 object Constants {
+    //　現在の日付
+    const val CURRENT_DATE = "current_date"
 
     // DISTANCE 基準
     const val DISTANCE_STANDARD = 50.0f
-
     const val INTENT_OBJECT = "intent_object"
 
     // SharedPreference ファイル名
@@ -15,8 +16,12 @@ object Constants {
 
     // ログアウト状態
     const val PREFERENCE_LOGOUT_STATUS = "preference_logout_status"
-
     const val EMAIL_PASSWORD_TAG = "email_password_tag"
-
     const val SETTING_FRAGMENT_TAG = "setting_fragment_tag"
+
+    // 出勤・退勤ボタンの状態
+    const val START_WORK_BTN_TAG = "start_work_btn_tag"
+    const val END_WORK_BTN_TAG = "end_work_btn_tag"
+
+
 }
