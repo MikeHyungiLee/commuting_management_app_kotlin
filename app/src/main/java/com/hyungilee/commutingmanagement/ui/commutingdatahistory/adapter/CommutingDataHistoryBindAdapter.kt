@@ -11,7 +11,8 @@ import com.hyungilee.commutingmanagement.databinding.RecyclerviewCommutingDataBi
 import kotlinx.android.synthetic.main.commuting_time_history_list_item.view.*
 
 class CommutingDataHistoryBindAdapter(
-      private val commutingData: List<CommutingData>
+      private val commutingData: List<CommutingData>,
+      private val listener: CommutingDataHistoryRecyclerViewClickListener
     ):RecyclerView.Adapter<CommutingDataHistoryBindAdapter.CommutingDataViewHolder>() {
 
     override fun getItemCount(): Int = commutingData.size
@@ -28,9 +29,15 @@ class CommutingDataHistoryBindAdapter(
 
     override fun onBindViewHolder(holder: CommutingDataViewHolder, position: Int) {
         holder.recyclerviewCommutingDataBinding.comdata = commutingData[position]
+        holder.recyclerviewCommutingDataBinding.detailButton.setOnClickListener {
+            listener.onCommutingDataHistoryItemClick(holder.recyclerviewCommutingDataBinding.detailButton, commutingData[position])
+        }
     }
 
     inner class CommutingDataViewHolder(
         val recyclerviewCommutingDataBinding: RecyclerviewCommutingDataBinding
     ): RecyclerView.ViewHolder(recyclerviewCommutingDataBinding.root)
+
+
+
 }

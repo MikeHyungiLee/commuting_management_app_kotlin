@@ -5,20 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.hyungilee.commutingmanagement.R
 import com.hyungilee.commutingmanagement.data.db.CommutingManagementDatabase
+import com.hyungilee.commutingmanagement.data.entity.CommutingData
 import com.hyungilee.commutingmanagement.data.repository.CommutingDatabaseRepository
-import com.hyungilee.commutingmanagement.ui.commutingdatahistory.adapter.CommutingDataHistoryAdapter
 import com.hyungilee.commutingmanagement.ui.commutingdatahistory.adapter.CommutingDataHistoryBindAdapter
+import com.hyungilee.commutingmanagement.ui.commutingdatahistory.adapter.CommutingDataHistoryRecyclerViewClickListener
 import kotlinx.android.synthetic.main.commuting_time_history_fragment.*
-import ph.ingenuity.tableview.TableView
 
 @Suppress("UNCHECKED_CAST")
-class CommutingDataHistoryFragment : Fragment() {
+class CommutingDataHistoryFragment : Fragment(), CommutingDataHistoryRecyclerViewClickListener {
 
     companion object {
         fun newInstance() = CommutingDataHistoryFragment()
@@ -58,7 +59,7 @@ class CommutingDataHistoryFragment : Fragment() {
 
             commuting_time_history_rv.also {rv->
                 rv.layoutManager = LinearLayoutManager(requireContext())
-                rv.adapter = CommutingDataHistoryBindAdapter(list)
+                rv.adapter = CommutingDataHistoryBindAdapter(list, this)
             }
         })
 
@@ -126,5 +127,15 @@ class CommutingDataHistoryFragment : Fragment() {
 //        }
 
 
+    }
+
+    override fun onCommutingDataHistoryItemClick(view: View, commutingData: CommutingData) {
+        when(view.id){
+            R.id.detail_button -> detailButton(commutingData)
+        }
+    }
+
+    private fun detailButton(commutingData: CommutingData){
+        Toast.makeText(requireContext(), "Show me the detail: ${commutingData.start_time}", Toast.LENGTH_LONG).show()
     }
 }

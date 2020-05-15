@@ -21,6 +21,7 @@ import com.hyungilee.commutingmanagement.ui.login.LoginActivity
 import com.hyungilee.commutingmanagement.ui.setting.models.CommuteData
 import com.hyungilee.commutingmanagement.ui.setting.models.User
 import com.hyungilee.commutingmanagement.utils.Constants
+import com.hyungilee.commutingmanagement.utils.Constants.CURRENT_DATE
 import com.hyungilee.commutingmanagement.utils.CurrentDateTime
 import com.hyungilee.commutingmanagement.utils.ModelPreferencesManager
 import kotlinx.android.synthetic.main.setting_fragment.*

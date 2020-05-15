@@ -17,7 +17,11 @@ class CurrentDateTime {
         }
 
         fun getCurrentTime(): String{
-            return createdAt.format(DateTimeFormatter.ISO_LOCAL_TIME)
+            val currentTime = createdAt.format(DateTimeFormatter.ISO_LOCAL_TIME)
+            val firstSubset = currentTime.substringBefore(":")
+            val otherSubsets = currentTime.substringAfter(":")
+            val otherFirstSubset = otherSubsets.substringBefore(":")
+            return "$firstSubset:$otherFirstSubset"
         }
 
     }

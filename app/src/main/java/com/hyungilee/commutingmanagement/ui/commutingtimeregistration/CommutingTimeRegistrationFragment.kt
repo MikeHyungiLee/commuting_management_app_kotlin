@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -35,8 +36,12 @@ import com.hyungilee.commutingmanagement.data.entity.CommutingData
 import com.hyungilee.commutingmanagement.data.repository.CommutingDatabaseRepository
 import com.hyungilee.commutingmanagement.ui.setting.models.CommuteData
 import com.hyungilee.commutingmanagement.ui.setting.models.User
+import com.hyungilee.commutingmanagement.utils.Constants
+import com.hyungilee.commutingmanagement.utils.Constants.CURRENT_DATE
+import com.hyungilee.commutingmanagement.utils.Constants.START_WORK_BTN_TAG
 import com.hyungilee.commutingmanagement.utils.CurrentDateTime
 import com.hyungilee.commutingmanagement.utils.GPSLocation
+import com.hyungilee.commutingmanagement.utils.ModelPreferencesManager
 
 class CommutingTimeRegistrationFragment :
     Fragment(), AdapterView.OnItemSelectedListener, LocationListener {
@@ -91,6 +96,9 @@ class CommutingTimeRegistrationFragment :
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //　初期画面が起動する時にアプリ内に現在の日付情報をSharedPreferenceに保存します。
+        ModelPreferencesManager.with(requireActivity().application)
+        ModelPreferencesManager.putStringVal(CurrentDateTime.getCurrentDate(), Constants.CURRENT_DATE)
         val view = inflater.inflate(R.layout.commuting_time_registration_fragment, container, false)
         // Spinnerを初期化
         spinner = view.findViewById(R.id.option1_spinner)
@@ -137,6 +145,8 @@ class CommutingTimeRegistrationFragment :
 
         // 現場の位置情報初期化
         initWorkLocation()
+        // 出勤・退勤ボタンの初期化
+        initStartEndWorkBtnStatus()
 
         // 出勤ボタンのクリックイベント処理
         startWorkBtn.setOnClickListener {
@@ -202,6 +212,42 @@ class CommutingTimeRegistrationFragment :
                     numOfLatenessAndEarlyLeavingHours.text = getString(R.string.with_hour, latPlusEarlyLeavingHours.toString())
                 }
             }
+        }
+    }
+
+    // 出勤・退勤ボタンの初期状態
+    private fun initStartLeaveBtnStatus(){
+        startWorkBtn.isEnabled = true
+        leaveWorkBtn.isEnabled = false
+        leaveWorkBtn.setBackgroundResource(R.drawable.inactive_button_rounded_shape)
+    }
+
+    // 出勤した後の退勤ボタンの状態
+    private fun initLeaveWorkBtnStatus(){
+        startWorkBtn.isEnabled = false
+        startWorkBtn.setBackgroundResource(R.drawable.inactive_button_rounded_shape)
+        leaveWorkBtn.isEnabled = true
+        leaveWorkBtn.setBackgroundResource(R.drawable.end_time_button_rounded_shape)
+    }
+
+    private fun initStartEndWorkBtnStatus(){
+        // 現在の日付とアプリ内で保存されている日付を比較して違う場合()
+        val currentDate = CurrentDateTime.getCurrentDate()
+        val savedDate = ModelPreferencesManager.getStringVal(CURRENT_DATE)
+        val startWorkBtnTag = ModelPreferencesManager.getIntVal(START_WORK_BTN_TAG)
+        // 現在の日付とSharedPreference上の日付が違う場合
+        if (currentDate != savedDate) {
+            // 新しくボタンの状態を初期化します。
+            initStartLeaveBtnStatus()
+        }
+        // 出勤処理しなかった場合
+        if(startWorkBtnTag != 1) {
+            // 新しくボタンの状態を初期化します。
+            initStartLeaveBtnStatus()
+        // 出勤処理した場合
+        }else{
+            // 退勤ボタンの状態を変更します。
+            initLeaveWorkBtnStatus()
         }
     }
 
@@ -294,9 +340,10 @@ class CommutingTimeRegistrationFragment :
                         "00:00",
                         "00:00"
                     )
-                    Toast.makeText(requireContext(),commutingData.toString(),Toast.LENGTH_LONG).show()
                     viewModel.saveCommutingData(commutingData)
-
+                    ModelPreferencesManager.putIntVal(1, START_WORK_BTN_TAG)
+                    // 退勤ボタンの状態を初期化する
+                    initLeaveWorkBtnStatus()
                 }
             }
         }
